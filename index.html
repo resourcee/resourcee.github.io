@@ -98,7 +98,8 @@
     .hero{
       min-height:100vh;
       background:var(--bg-hero);
-      display:flex;flex-direction:column;justify-content:flex-end;
+      display:grid;grid-template-columns:1fr 400px;
+      column-gap:3rem;align-items:flex-end;
       padding:0 5vw 0;position:relative;overflow:hidden;
     }
 
@@ -133,7 +134,7 @@
       color:rgba(174,190,207,.4);letter-spacing:.07em;text-align:right;
     }
 
-    .hero-content{padding-bottom:3.5rem;position:relative;z-index:2;}
+    .hero-content{padding-bottom:3.5rem;position:relative;z-index:2;align-self:end;}
 
     .hero-kicker{
       font-family:'JetBrains Mono',monospace;font-size:.7rem;
@@ -198,8 +199,57 @@
     /* ── wavy hero bottom divider ── */
     .hero-wave{
       display:block;width:100%;margin-bottom:-2px;position:relative;z-index:2;
+      grid-column:1 / -1;
     }
     .hero-wave path{fill:var(--bg);}
+
+    /* ── Hero info panel ── */
+    .hero-panel{
+      background:rgba(16,16,29,.75);
+      border:1px solid var(--border);
+      border-radius:var(--radius-sm);
+      overflow:hidden;align-self:flex-end;
+      margin-bottom:0;position:relative;z-index:2;
+      backdrop-filter:blur(12px);
+      box-shadow:0 8px 40px rgba(0,0,0,.55);
+    }
+    .hp-bar{
+      background:rgba(137,107,255,.08);
+      border-bottom:1px solid var(--border);
+      padding:.6rem 1.1rem;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .hp-dots{display:flex;gap:.38rem;}
+    .hp-dots span{width:9px;height:9px;border-radius:50%;}
+    .hp-dots span:nth-child(1){background:#bf616a}
+    .hp-dots span:nth-child(2){background:#ebcb8b}
+    .hp-dots span:nth-child(3){background:#a3be8c}
+    .hp-fname{font-family:'Poppins',sans-serif;font-size:.75rem;font-weight:600;color:var(--fg);letter-spacing:.01em;}
+    .hp-live{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#a3be8c;letter-spacing:.06em;display:flex;align-items:center;gap:.35rem;}
+    .hp-live::before{content:'';width:5px;height:5px;border-radius:50%;background:#a3be8c;animation:pulse 2.2s ease infinite;}
+
+    .hp-body{padding:1.3rem;}
+    .hp-row{
+      display:flex;justify-content:space-between;align-items:flex-start;
+      margin-bottom:1.1rem;padding-bottom:1.1rem;
+      border-bottom:1px solid var(--border);
+    }
+    .hp-row.last{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .hp-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:.38rem;}
+    .hp-val{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.55rem;line-height:1;letter-spacing:-.03em;}
+    .hp-val .hp-unit{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.3);font-weight:400;margin-left:.15rem;}
+    .hp-trend{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#a3be8c;margin-top:.3rem;letter-spacing:.04em;}
+
+    .hp-bars{margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border);}
+    .hp-bar-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text2);letter-spacing:.07em;text-transform:uppercase;margin-bottom:.9rem;}
+    .hb-row{margin-bottom:.8rem;}
+    .hb-row:last-child{margin-bottom:0;}
+    .hb-meta{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--text2);margin-bottom:.32rem;}
+    .hb-track{height:3px;background:var(--border);border-radius:2px;}
+    .hb-fill{height:100%;border-radius:2px;animation:grow .9s ease forwards;}
+
+    .hp-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--border);}
+    .hp-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;padding:.2rem .55rem;border:1px solid var(--border2);border-radius:var(--radius-pill);color:var(--text2);}
 
     /* ══ TICKER ══ */
     .ticker{
@@ -479,6 +529,8 @@
 
     /* ══ RESPONSIVE ══ */
     @media(max-width:1000px){
+      .hero{grid-template-columns:1fr;}
+      .hero-panel{display:none;}
       .svc-card{grid-template-columns:40px 1fr;grid-template-rows:auto auto auto;}
       .svc-card .svc-feats{grid-column:2;grid-row:3;}
       .svc-card .svc-desc{grid-column:2;grid-row:2;}
@@ -495,6 +547,7 @@
       .hero-meta{display:none;}
       .hero-right{align-items:flex-start;}
       .hero-stats{flex-wrap:wrap;gap:1.5rem;}
+      .hero-panel{display:none;}
     }
   </style>
 </head>
@@ -582,6 +635,74 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ── Hero info panel ── -->
+  <div class="hero-panel reveal">
+    <div class="hp-bar">
+      <div class="hp-dots"><span></span><span></span><span></span></div>
+      <div class="hp-fname">Talent Pipeline</div>
+      <div class="hp-live">Live</div>
+    </div>
+    <div class="hp-body">
+
+      <!-- KPI row -->
+      <div class="hp-row">
+        <div>
+          <div class="hp-lbl">time to candidate</div>
+          <div class="hp-val" style="color:var(--accent)">14<span class="hp-unit">days</span></div>
+          <div class="hp-trend">↓ 3d vs industry avg</div>
+        </div>
+        <div>
+          <div class="hp-lbl">cost vs US talent</div>
+          <div class="hp-val" style="color:#a3be8c">3×<span class="hp-unit">savings</span></div>
+          <div class="hp-trend">↑ consistent</div>
+        </div>
+      </div>
+
+      <!-- Second KPI row -->
+      <div class="hp-row">
+        <div>
+          <div class="hp-lbl">tz overlap</div>
+          <div class="hp-val" style="color:#96b5b4">≤5h<span class="hp-unit">delta</span></div>
+        </div>
+        <div>
+          <div class="hp-lbl">avg score</div>
+          <div class="hp-val" style="color:var(--fg2)">82<span class="hp-unit">/100</span></div>
+        </div>
+      </div>
+
+      <!-- Skill bars -->
+      <div class="hp-bars">
+        <div class="hp-bar-lbl">specialization depth</div>
+        <div class="hb-row">
+          <div class="hb-meta"><span>AI / ML Engineering</span><span style="color:var(--accent)">94%</span></div>
+          <div class="hb-track"><div class="hb-fill" style="width:94%;background:var(--accent)"></div></div>
+        </div>
+        <div class="hb-row">
+          <div class="hb-meta"><span>Data Engineering</span><span style="color:#96b5b4">88%</span></div>
+          <div class="hb-track"><div class="hb-fill" style="width:88%;background:#96b5b4"></div></div>
+        </div>
+        <div class="hb-row">
+          <div class="hb-meta"><span>Cloud / Infra</span><span style="color:#a3be8c">85%</span></div>
+          <div class="hb-track"><div class="hb-fill" style="width:85%;background:#a3be8c"></div></div>
+        </div>
+        <div class="hb-row">
+          <div class="hb-meta"><span>Backend Engineering</span><span style="color:var(--fg2)">90%</span></div>
+          <div class="hb-track"><div class="hb-fill" style="width:90%;background:var(--fg2)"></div></div>
+        </div>
+      </div>
+
+      <!-- Tags -->
+      <div class="hp-tags">
+        <span class="hp-tag">MLOps</span>
+        <span class="hp-tag">FinOps</span>
+        <span class="hp-tag">Cybersecurity</span>
+        <span class="hp-tag">Platform Eng</span>
+        <span class="hp-tag">Data Science</span>
+      </div>
+
     </div>
   </div>
 
