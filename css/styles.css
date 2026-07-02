@@ -172,6 +172,8 @@ p  { color: var(--body-color); }
 }
 .nav__links a:hover { color: var(--blue-primary); }
 .nav__cta { display: flex; align-items: center; gap: 12px; margin-left: 24px; }
+.nav__cta .btn--primary,
+.nav__drawer .btn--primary { background: var(--navy); }
 
 /* Hamburger */
 .nav__burger {
@@ -196,11 +198,13 @@ p  { color: var(--body-color); }
   border-bottom: 1px solid #F1F5F9;
 }
 .nav__drawer a:hover { color: var(--blue-primary); }
+.nav__drawer a.btn--primary,
+.nav__drawer a.btn--primary:hover { color: var(--white); font-weight: 600; border-bottom: none; }
 .nav__drawer .btn { margin: 12px 32px; }
 
 @media (max-width: 768px) {
   .nav__links, .nav__cta { display: none; }
-  .nav__burger { display: flex; }
+  .nav__burger { display: flex; margin-left: auto; }
 }
 
 /* ══════════════════════════════
