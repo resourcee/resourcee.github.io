@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://resourcee.com/sitemap.xml
+Sitemap: https://resourcee.co/sitemap.xml
