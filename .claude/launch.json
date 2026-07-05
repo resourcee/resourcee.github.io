@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "resourcee-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [".claude/preview_server.py"],
+      "port": 4599
+    }
+  ]
+}
