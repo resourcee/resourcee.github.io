@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  /* Inter is vendored under tools/fonts so card rendering never depends on the
+     network — a missing webfont would silently change every card's metrics. */
+  @font-face { font-family: 'Inter'; font-weight: 600; font-display: block; src: url('fonts/Inter-600.ttf') format('truetype'); }
+  @font-face { font-family: 'Inter'; font-weight: 700; font-display: block; src: url('fonts/Inter-700.ttf') format('truetype'); }
+  @font-face { font-family: 'Inter'; font-weight: 800; font-display: block; src: url('fonts/Inter-800.ttf') format('truetype'); }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: linear-gradient(140deg, #152040 0%, #12275a 40%, #1e3d82 72%, #1C4ED8 100%);
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* Decorative map + glow. The outline is the same LATAM path the home page
+     renders (index.html, .latam-map__svg) — it is already drawn in periwinkle
+     for a navy ground, so it needs no recolouring here. */
+  .map {
+    position: absolute; right: 56px; top: 50%;
+    transform: translateY(-50%);
+    width: 330px; height: 330px;
+  }
+  .glow {
+    position: absolute; width: 720px; height: 720px; border-radius: 50%;
+    right: -240px; bottom: -320px;
+    background: radial-gradient(circle, rgba(66,120,255,.55) 0%, rgba(66,120,255,0) 68%);
+  }
+
+  /* Article artwork. Blog posts swap the map for the post's own illustration.
+     The source SVGs are drawn on a light ground, so they are mounted as a panel
+     rather than laid straight onto the navy. */
+  .art {
+    position: absolute; right: 60px; top: 50%;
+    transform: translateY(-50%);
+    width: 380px; height: 266px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #EEF2FF;
+    border: 1px solid rgba(255,255,255,.22);
+    box-shadow: 0 18px 48px rgba(5,12,32,.42);
+  }
+  /* The source art is a wide banner with generous empty margins — at card size
+     the motif would read as a speck, so crop in on it. */
+  .art img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transform: scale(1.38);
+  }
+
+  .card {
+    position: relative; z-index: 2;
+    height: 100%;
+    padding: 68px 76px 60px;
+    display: flex; flex-direction: column;
+  }
+
+  /* Brand lockup */
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .brand__chip {
+    width: 72px; height: 72px; border-radius: 18px;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 28px rgba(0,0,0,.22);
+  }
+  .brand__chip img { width: 44px; height: auto; display: block; }
+  .brand__name {
+    font-size: 34px; font-weight: 800; letter-spacing: -.8px; color: #fff;
+  }
+
+  /* Body */
+  .body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .kicker {
+    font-size: 16px; font-weight: 700; letter-spacing: 2.6px;
+    text-transform: uppercase; color: #8FB0FF;
+    margin-bottom: 22px;
+  }
+  h1 {
+    font-weight: 800;
+    letter-spacing: -1.8px;
+    line-height: 1.1;
+    color: #fff;
+    /* The map occupies x >= 814; this keeps the headline clear of it. */
+    max-width: 720px;
+  }
+  /* The artwork panel starts further left than the map (x >= 764), so the
+     headline column narrows to keep a clear gutter between the two. */
+  body.has-art h1 { max-width: 630px; }
+  h1.size-l  { font-size: 64px; }
+  h1.size-m  { font-size: 56px; }
+  h1.size-s  { font-size: 48px; letter-spacing: -1.4px; }
+  h1.size-xs { font-size: 42px; letter-spacing: -1.1px; }
+  h1.size-xxs { font-size: 37px; letter-spacing: -.9px; }
+
+  /* Footer */
+  .foot {
+    display: flex; align-items: center; gap: 20px;
+    font-size: 20px; font-weight: 600; color: #C4CEEE;
+  }
+  .foot__rule { width: 64px; height: 4px; border-radius: 4px; background: #4F84FF; }
+  .foot__dot { color: #55699e; }
+</style>
+</head>
+<body>
+  <svg class="map" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="
+      M 23,17 C 48,14 73,22 73,28 C 75,30 80,33 81,34 C 80,38 79,42 78,44
+      C 80,48 83,52 84,53 C 89,55 93,55 94,55 C 97,53 100,51 100,51
+      C 102,48 111,47 111,47 C 113,50 111,55 109,57 L 108,62 106,63 L 113,62
+      C 117,65 120,72 120,73 C 121,77 122,79 132,81 L 139,84
+      C 140,80 143,77 140,77 C 144,75 149,75 154,74 C 159,74 166,75 166,75
+      C 171,75 181,77 181,77 C 188,81 196,90 196,90 C 202,92 208,94 208,94
+      L 213,102 237,115 C 247,117 255,120 263,122 L 264,128
+      C 259,136 254,142 254,143 C 252,148 251,151 251,151 C 251,157 250,163 250,165
+      C 247,168 240,171 239,172 C 234,175 231,175 231,175 C 226,180 223,186 223,187
+      C 219,190 216,192 216,193 C 213,198 210,203 210,204 C 204,205 197,205 197,205
+      C 198,210 199,214 199,215 C 193,217 185,218 185,218 C 180,224 175,233 175,236
+      L 175,250 C 177,254 179,258 179,259 C 178,262 176,263 176,262
+      C 171,263 166,262 166,261 C 162,260 158,259 158,258 C 151,254 148,252 148,252
+      C 148,245 149,242 149,241 C 150,232 151,226 151,224 C 151,218 151,213 151,212
+      C 153,208 156,204 156,202 C 157,197 157,194 157,193 C 158,184 159,176 159,174
+      L 160,160 C 154,153 147,149 147,149 C 144,146 141,143 141,142
+      C 138,136 134,131 134,130 C 132,124 131,118 131,117 C 131,113 132,108 133,105
+      C 135,100 140,93 140,91 C 138,88 129,83 129,83 C 124,83 121,83 121,83
+      C 117,77 111,73 111,72 C 107,71 103,70 103,70 C 101,68 100,68 100,68
+      C 97,66 96,65 96,65 C 91,64 84,63 84,63 C 79,61 73,60 73,60
+      C 67,57 60,54 60,54 C 58,51 57,50 57,49 C 55,46 54,43 54,42
+      C 49,36 42,29 42,28 C 37,26 33,24 33,23 C 30,21 27,19 23,17 Z
+    " fill="rgba(196,206,238,0.16)" stroke="rgba(196,206,238,0.52)" stroke-width="1.3"
+      stroke-linejoin="round" stroke-linecap="round"/>
+
+    <!-- Sourcing hubs, on the same coordinates the home page marks -->
+    <polyline points="75,53 149,95 141,142 220,177 195,205" fill="none"
+              stroke="rgba(196,206,238,0.22)" stroke-width="0.9" stroke-dasharray="2,3"/>
+    <circle cx="75"  cy="53"  r="7"   fill="#c4ceee" opacity="0.20"/>
+    <circle cx="75"  cy="53"  r="3.2" fill="#fff"    opacity="0.85"/>
+    <circle cx="149" cy="95"  r="6"   fill="#c4ceee" opacity="0.18"/>
+    <circle cx="149" cy="95"  r="2.6" fill="#c4ceee" opacity="0.9"/>
+    <circle cx="141" cy="142" r="6"   fill="#c4ceee" opacity="0.16"/>
+    <circle cx="141" cy="142" r="2.6" fill="#c4ceee" opacity="0.9"/>
+    <circle cx="220" cy="177" r="14"  fill="none" stroke="rgba(196,206,238,0.14)" stroke-width="1"/>
+    <circle cx="220" cy="177" r="8"   fill="#c4ceee" opacity="0.22"/>
+    <circle cx="220" cy="177" r="3.6" fill="#fff"    opacity="0.85"/>
+    <circle cx="195" cy="205" r="6"   fill="#c4ceee" opacity="0.18"/>
+    <circle cx="195" cy="205" r="2.8" fill="#fff"    opacity="0.8"/>
+  </svg>
+  <div class="art" id="art" hidden><img id="art-img" src="" alt=""/></div>
+  <div class="glow"></div>
+
+  <div class="card">
+    <div class="brand">
+      <div class="brand__chip"><img src="../assets/logo.png" alt=""/></div>
+      <div class="brand__name">Resourcee</div>
+    </div>
+
+    <div class="body">
+      <div class="kicker" id="kicker"></div>
+      <h1 id="title"></h1>
+    </div>
+
+    <div class="foot">
+      <span class="foot__rule"></span>
+      <span>resourcee.co</span>
+      <span class="foot__dot">&bull;</span>
+      <span>San Diego &amp; Medell&iacute;n</span>
+    </div>
+  </div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  const title = p.get('title') || 'Elite South American Engineering Talent for US Teams';
+  const kicker = p.get('kicker') || 'Nearshore Talent Partner';
+  const image = p.get('image');
+
+  document.getElementById('title').textContent = title;
+  document.getElementById('kicker').textContent = kicker;
+
+  // Blog posts pass their own illustration; everything else keeps the map.
+  if (image) {
+    document.getElementById('art-img').src = image;
+    document.getElementById('art').hidden = false;
+    document.querySelector('.map').remove();
+    document.body.classList.add('has-art');
+  }
+
+  // Pick a type size that keeps the headline inside its box without clipping.
+  // Must wait for Inter, or the measurement uses fallback font metrics.
+  document.fonts.ready.then(() => {
+    const h1 = document.getElementById('title');
+    const steps = ['size-l', 'size-m', 'size-s', 'size-xs', 'size-xxs'];
+    const maxHeight = 300;
+    for (const cls of steps) {
+      h1.className = cls;
+      if (h1.getBoundingClientRect().height <= maxHeight) break;
+    }
+    document.documentElement.dataset.ready = '1';
+  });
+</script>
+</body>
+</html>
